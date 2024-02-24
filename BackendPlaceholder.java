@@ -9,6 +9,7 @@ import java.io.IOException;
  * of the Backend class that will be implemented in a later week.
  */
 public class BackendPlaceholder implements BackendInterface {
+	private boolean getRange = false;
 
     public BackendPlaceholder(IterableSortedCollection<SongInterface> tree) {}
 
@@ -34,10 +35,11 @@ public class BackendPlaceholder implements BackendInterface {
      * this class.
      *
      * @param low is the minimum Loudness of songs in the returned list
-     * @param hight is the maximum Loudness of songs in the returned list
+     * @param high is the maximum Loudness of songs in the returned list
      * @return List of titles for all songs in specified range 
      */
     public List<String> getRange(int low, int high) {
+	getRange = true;
 	// placeholder just returns a hard coded list of songs
 	return java.util.Arrays.asList(new String[]{
 		"Hey, Soul Sister",
@@ -63,10 +65,15 @@ public class BackendPlaceholder implements BackendInterface {
      * @return List of song titles, empty if getRange was not previously called
      */
     public List<String> filterByGenre(String genre) {
-	return java.util.Arrays.asList(new String[]{
-		"Hey, Soul Sister",
-		"Love The Way You Lie"
-	    });
+		if (getRange == false){
+			return List.of();
+		}
+		else {
+			return java.util.Arrays.asList(new String[]{
+				"Hey, Soul Sister",
+				"Love The Way You Lie"
+			});
+		}
     }
 
     /**
@@ -83,9 +90,12 @@ public class BackendPlaceholder implements BackendInterface {
      * @throws IllegalStateException when getRange() was not previously called.
      */
     public List<String> fiveMostLive() {
-	return java.util.Arrays.asList(new String[]{
-		"8: Hey, Soul Sister",
-		"52: Love The Way You Lie"
-	    });	
+		if (getRange == false) {
+			throw new IllegalStateException("getRange needs to be called first");
+		}
+		return java.util.Arrays.asList(new String[]{
+			"8: Hey, Soul Sister",
+			"52: Love The Way You Lie"
+		});
     }    
 }
