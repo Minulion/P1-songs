@@ -18,9 +18,9 @@ if [[ ! -f Makefile ]]; then
 	exit 1
 fi
 
-if ! make runBackendTests && ! make runFrontendTests ; then
+if ! make runBDTests && ! make runFDTests ; then
 	echo
-	echo "Submission Failed Check: \"make runBackendTests\" or  \"make runFrontendTests\" does not succeed"
+	echo "Submission Failed Check: \"make runBDTests\" or  \"make runFDTests\" does not succeed"
 	exit 1
 fi
 
