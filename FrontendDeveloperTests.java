@@ -41,6 +41,7 @@ public class FrontendDeveloperTests {
    */
   @Test
   void testReadFile() {
+    // Case 1: file is found
     // New TextUITester object for test
     TextUITester tester = new TextUITester("R\nsongs.csv\nQ\n");
 
@@ -56,6 +57,31 @@ public class FrontendDeveloperTests {
     // checks the contents
     assertTrue(output.contains("Enter path to csv file to load: "));
     assertTrue(output.contains("Done reading file.\n"));
+
+    // check that the menu gets printed more than once
+    assertNotEquals(output.indexOf("[R]ead Data\n"), output.lastIndexOf("[R]ead Data\n"));
+
+    // check that the program/method ends correctly
+    assertTrue(output.endsWith("Thank you for using iSongify, Goodbye!\n"),
+        "Command Q did not work as expected");
+
+    // ---------------------------------------------------------------------------------------
+    // Case 2: file not found
+    // New TextUITester object for test
+    tester = new TextUITester("R\nsomefile.csv\nQ\n");
+
+    // calls helper method
+    run();
+
+    // stores output printed
+    output = tester.checkOutput();
+
+    // checks the welcome message
+    assertTrue(output.startsWith("Welcome to iSongify\n"));
+
+    // checks the contents
+    assertTrue(output.contains("Enter path to csv file to load: "));
+    assertTrue(output.contains("Could not find file somefile.csv\n"));
 
     // check that the menu gets printed more than once
     assertNotEquals(output.indexOf("[R]ead Data\n"), output.lastIndexOf("[R]ead Data\n"));

@@ -21,6 +21,10 @@ public class BackendPlaceholder implements BackendInterface {
     public void readData(String filename) throws IOException {
 	// Note: this placeholder doesn't need to output anything,
 	// it will be implemented by the backend developer in P105.
+		// added for testing purposes. Throws error when file name is somefile.csv
+		if (filename.equals("somefile.csv")){
+			throw new IOException("No file found");
+		}
     }
 
     /**

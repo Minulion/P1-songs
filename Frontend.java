@@ -86,7 +86,7 @@ public class Frontend implements FrontendInterface{
     try{
       backend.readData(input);
     } catch (IOException e){
-      System.out.println("Could not fine file");
+      System.out.println("Could not find file " + input);
     }
 
     // tell use it succeeded
