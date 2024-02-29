@@ -1,0 +1,60 @@
+Script started on 2024-02-29 01:14:43+00:00 [TERM="xterm-256color" TTY="/dev/pts/5" COLUMNS="184" LINES="51"]
+[?2004h]0;yyang748@cs400: ~/P105.RoleCode[01;32myyang748@cs400[00m:[01;34m~/P105.RoleCode[00m$ [7mgit status[27mgit status
+[?2004lOn branch frontend
+Your branch is ahead of 'origin/frontend' by 2 commits.
+  (use "git push" to publish your local commits)
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	[31mlog[m
+
+nothing added to commit but untracked files present (use "git add" to track)
+[?2004h]0;yyang748@cs400: ~/P105.RoleCode[01;32myyang748@cs400[00m:[01;34m~/P105.RoleCode[00m$ [7mgit log -1[27mgit log -1
+[?2004l[?1h=[33mcommit 839a059ea74e92680fe207fda7e6dd30eec71026[m[33m ([m[1;36mHEAD -> [m[1;32mfrontend[m[33m)[m[m
+Author: Yanjun Yang <yyang748@wisc.edu>[m
+Date:   Thu Feb 29 01:14:26 2024 +0000[m
+[m
+    Removed Log File[m
+[K[?1l>[?2004h]0;yyang748@cs400: ~/P105.RoleCode[01;32myyang748@cs400[00m:[01;34m~/P105.RoleCode[00m$ [7mmake clean[27mmake clean
+[?2004lrm *.class
+rm: cannot remove '*.class': No such file or directory
+make: *** [Makefile:6: clean] Error 1
+[?2004h]0;yyang748@cs400: ~/P105.RoleCode[01;32myyang748@cs400[00m:[01;34m~/P105.RoleCode[00m$ [7mls[27mls
+[?2004lApp.java                 Frontend.java                FrontendPlaceholder.java       Makefile                        TextUITester.java
+BackendInterface.java    FrontendDeveloperTests.java  ISCPlaceholder.java            SongInterface.java              log
+BackendPlaceholder.java  FrontendInterface.java       IterableSortedCollection.java  SortedCollectionInterface.java  songs.csv
+[?2004h]0;yyang748@cs400: ~/P105.RoleCode[01;32myyang748@cs400[00m:[01;34m~/P105.RoleCode[00m$ [7mmake[27mmake [7mrunFDTests[27mrunFDTests
+[?2004ljavac -cp ../junit5.jar:. FrontendDeveloperTests.java
+java -jar ../junit5.jar --class-path=. --select-class=FrontendDeveloperTests
+
+Thanks for using JUnit! Support its development at https://junit.org/sponsoring
+
+[36m╷[0m
+[36m├─[0m [36mJUnit Jupiter[0m [32m✔[0m
+[36m│  └─[0m [36mFrontendDeveloperTests[0m [32m✔[0m
+[36m│     ├─[0m [34mtestTopFive()[0m [32m✔[0m
+[36m│     ├─[0m [34mtestMenu()[0m [32m✔[0m
+[36m│     ├─[0m [34mtestReadFile()[0m [32m✔[0m
+[36m│     ├─[0m [34mtestFilter()[0m [32m✔[0m
+[36m│     └─[0m [34mtestGetValues()[0m [32m✔[0m
+[36m├─[0m [36mJUnit Vintage[0m [32m✔[0m
+[36m└─[0m [36mJUnit Platform Suite[0m [32m✔[0m
+
+Test run finished after 305 ms
+[         4 containers found      ]
+[         0 containers skipped    ]
+[         4 containers started    ]
+[         0 containers aborted    ]
+[         4 containers successful ]
+[         0 containers failed     ]
+[         5 tests found           ]
+[         0 tests skipped         ]
+[         5 tests started         ]
+[         0 tests aborted         ]
+[         5 tests successful      ]
+[         0 tests failed          ]
+
+[?2004h]0;yyang748@cs400: ~/P105.RoleCode[01;32myyang748@cs400[00m:[01;34m~/P105.RoleCode[00m$ exit
+[?2004lexit
+
+Script done on 2024-02-29 01:15:46+00:00 [COMMAND_EXIT_CODE="0"]
