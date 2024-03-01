@@ -96,7 +96,7 @@ public class Song implements SongInterface {
         return liveness;
     } // returns this song's liveness rating
 
-    public int CompareTo(Song song) {
+    public int compareTo(Song song) {
         return 0;
     }
     
