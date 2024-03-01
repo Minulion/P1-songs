@@ -13,7 +13,9 @@ import java.io.File;
  */
 public class Backend implements BackendInterface {
 
-    public Backend(IterableSortedCollection<SongInterface> tree) {}
+    public Backend(IterableSortedCollection<SongInterface> tree) {
+        this.tree = tree;
+    }
 
     /**
      * Loads data from the .csv file referenced by filename.
@@ -35,6 +37,7 @@ public class Backend implements BackendInterface {
         }
     }
 
+    IterableSortedCollection<SongInterface> tree = new ISCPlaceholder<>();
     List<Song> gotRange = new ArrayList<Song>(); //can be modified by either getRange or filterByGenre
     List<Song> filteredByGenre = new ArrayList<Song>();
     boolean getRangeCalled = false;
