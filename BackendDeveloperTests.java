@@ -12,7 +12,7 @@ public class BackendDeveloperTests {
 	    BackendInterface backend = new BackendPlaceholder(tree);
         try {
             backend.readData("fakeName.file");
-        } catch IOException e {
+        } catch (IOException e) {
             //exception thrown for fake file
         }
     }
@@ -47,7 +47,7 @@ public class BackendDeveloperTests {
         try {
             backend.fiveMostLive();
             Assertions.fail("no exception thrown");
-        } catch IllegalStateException e {
+        } catch (IllegalStateException e) {
             //exception thrown when getRange() not previously called
         }
     }
