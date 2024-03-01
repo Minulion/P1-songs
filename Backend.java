@@ -33,11 +33,11 @@ public class Backend implements BackendInterface {
         String line;
         while (sc.hasNextLine()) {
             line = sc.nextLine();
-            tree.insert(new Song(line));
+            tree.add(new Song(line));
         }
     }
 
-    IterableSortedCollection<SongInterface> tree = new ISCPlaceholder<>();
+    List<Song> tree = new ArrayList<Song>();
     List<Song> gotRange = new ArrayList<Song>(); //can be modified by either getRange or filterByGenre
     List<Song> filteredByGenre = new ArrayList<Song>();
     boolean getRangeCalled = false;
