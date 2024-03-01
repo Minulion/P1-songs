@@ -5,7 +5,7 @@ public class Song implements SongInterface {
 
     public Song(String data) { //constructor for Song class
         List<String> words = new ArrayList<String>();
-        String word;
+        String word = "";
         int qCount = 0;
         boolean doubleQ = false;
         for (int i = 0; i < data.length(); i++) {
