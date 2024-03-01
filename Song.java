@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Song implements SongInterface {
+public class Song extends Comparable<Song> implements SongInterface {
 
     public Song(String data) { //constructor for Song class
         List<String> words = new ArrayList<String>();
@@ -95,5 +95,9 @@ public class Song implements SongInterface {
     public int getLiveness() {
         return liveness;
     } // returns this song's liveness rating
+
+    public int CompareTo(Song song) {
+        return 0;
+    }
     
 }
