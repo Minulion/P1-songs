@@ -21,12 +21,13 @@ public class Backend implements BackendInterface {
      * @throws IOException when there is trouble finding/reading file
      */
     public void readData(String filename) throws IOException {
+        Scanner sc;
         try {
-            Scanner sc = new Scanner(new File(filename));
-            sc.nextLine(); // start from line 2
+            sc = new Scanner(new File(filename));
         } catch(Exception e) {
             throw new IOException();
         }
+        sc.nextLine(); // start from line 2
         String line;
         while (sc.hasNextLine()) {
             line = sc.nextLine();
