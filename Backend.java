@@ -61,7 +61,7 @@ public class BackendPlaceholder implements BackendInterface {
         List<Song> songs = new ArrayList<Song>();
         if (filterByGenreCalled) {
             for (Song song : filteredByGenre) {
-                if (song.getLoudness >= low && song.getLoudness <= high) {
+                if (song.getLoudness() >= low && song.getLoudness() <= high) {
                     titles.add(song.getTitle());
                     songs.add(song);
                 }
@@ -70,7 +70,7 @@ public class BackendPlaceholder implements BackendInterface {
             return titles;
         }
         for (Song song : tree) {
-            if (song.getLoudness >= low && song.getLoudness <= high) {
+            if (song.getLoudness() >= low && song.getLoudness() <= high) {
                 titles.add(song.getTitle());
                 songs.add(song);
             }
