@@ -10,9 +10,9 @@ import java.util.ArrayList;
  * as placeholders throughout development.  It demonstrates the architecture
  * of the Backend class that will be implemented in a later week.
  */
-public class BackendPlaceholder implements BackendInterface {
+public class Backend implements BackendInterface {
 
-    public BackendPlaceholder(IterableSortedCollection<SongInterface> tree) {}
+    public Backend(IterableSortedCollection<SongInterface> tree) {}
 
     /**
      * Loads data from the .csv file referenced by filename.
