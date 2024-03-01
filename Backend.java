@@ -13,7 +13,7 @@ import java.io.File;
  */
 public class Backend implements BackendInterface {
 
-    public Backend(IterableSortedCollection<SongInterface> tree) {}
+    public Backend(ISCPlaceholder<Song> tree) {}
 
     /**
      * Loads data from the .csv file referenced by filename.
