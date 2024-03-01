@@ -6,7 +6,7 @@ public class Song extends Comparable<Song> implements SongInterface {
         int qCount = 0;
         boolean doubleQ = false;
         for (int i = 0; i < data.length(); i++) {
-            if (i == data.length - 1) { //if last char in string
+            if (i == data.length() - 1) { //if last char in string
                 word += (data.charAt(i));
                 words.add(word);
                 break;
