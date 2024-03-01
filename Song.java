@@ -7,13 +7,13 @@ public class Song extends Comparable<Song> implements SongInterface {
         boolean doubleQ = false;
         for (int i = 0; i < data.length(); i++) {
             if (i == data.length - 1) { //if last char in string
-                word.add(data.charAt(i));
+                word += (data.charAt(i));
                 words.add(word);
                 break;
             }
             if (data.charAt(i) == '"') {
                 if (doubleQ) { //two quotes in a row
-                    word.add(data.charAt(i));
+                    word += (data.charAt(i));
                     doubleQ = false;
                 } else {
                     doubleQ = true;
@@ -25,10 +25,10 @@ public class Song extends Comparable<Song> implements SongInterface {
                 if (data.charAt(i) == ',') {
                     words.add(word);
                 } else {
-                    word.add(data.charAt(i));
+                    word += (data.charAt(i));
                 }
             } else { // odd num of quotations
-                word.add(data.charAt(i));
+                word += (data.charAt(i));
             }
             doubleQ = false;
         }
