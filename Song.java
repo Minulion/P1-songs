@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Song extends Comparable<Song> implements SongInterface {
+public class Song implements SongInterface {
 
     public Song(String data) { //constructor for Song class
         List<String> words = new ArrayList<String>();
