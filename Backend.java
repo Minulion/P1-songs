@@ -22,7 +22,7 @@ public class Backend implements BackendInterface {
     public void readData(String filename) throws IOException {
         try {
             Scanner sc = new Scanner(new File(filename));
-            sc = sc.nextLine(); // start from line 2
+            sc.nextLine(); // start from line 2
         } catch(Exception e) {
             throw new IOException();
         }
