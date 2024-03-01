@@ -32,10 +32,10 @@ public class Song extends Comparable<Song> implements SongInterface {
             }
             doubleQ = false;
         }
-        if (words.size() != 9) {
-            throw new IOException();
-        }
-        
+        // if (words.size() != 9) {
+        //     throw new IOException();
+        // }
+
         title = words[0];
         artist = words[1];
         genres = words[2];

@@ -20,8 +20,12 @@ public class BackendPlaceholder implements BackendInterface {
      * @throws IOException when there is trouble finding/reading file
      */
     public void readData(String filename) throws IOException {
-        Scanner sc = new Scanner(new File(filename));
-        sc.nextLine(); // start from line 2
+        try {
+            Scanner sc = new Scanner(new File(filename));
+            sc = sc.nextLine(); // start from line 2
+        } catch(Exception e) {
+            throw new IOException();
+        }
         String line;
         while (sc.hasNextLine()) {
             line = sc.nextLine();
@@ -29,10 +33,10 @@ public class BackendPlaceholder implements BackendInterface {
         }
     }
 
-    List<Song> current = new ArrayList<Song>(); //can be modified by either getRange or filterByGenre
+    List<Song> gotRange = new ArrayList<Song>(); //can be modified by either getRange or filterByGenre
+    List<Song> filteredByGenre = new ArrayList<Song>();
     boolean getRangeCalled = false;
     boolean filterByGenreCalled = false;
-    List<Integer> range = new ArrayList<Integer>();
 
 
 
@@ -56,16 +60,13 @@ public class BackendPlaceholder implements BackendInterface {
         List<String> titles = new ArrayList<String>();
         List<Song> songs = new ArrayList<Song>();
         if (filterByGenreCalled) {
-            for (Song song : current) {
+            for (Song song : filteredByGenre) {
                 if (song.getLoudness >= low && song.getLoudness <= high) {
                     titles.add(song.getTitle());
                     songs.add(song);
                 }
             }
-            current = songs;
-            range = new ArrayList<Integer>();
-            range.add(low);
-            range.add(high);
+            gotRange = songs;
             return titles;
         }
         for (Song song : tree) {
@@ -74,10 +75,7 @@ public class BackendPlaceholder implements BackendInterface {
                 songs.add(song);
             }
         }
-        current = songs;
-        range = new ArrayList<Integer>();
-        range.add(low);
-        range.add(high);
+        gotRange = songs;
 	    return titles;
     }
 
@@ -96,19 +94,19 @@ public class BackendPlaceholder implements BackendInterface {
      * @return List of song titles, empty if getRange was not previously called
      */
     public List<String> filterByGenre(String genre) {
-        filterByGenreCalled = true;
         List<String> titles = new ArrayList<String>();
         List<Song> songs = new ArrayList<Song>();
         if (!getRangeCalled) {
             return titles;
         }
+        filterByGenreCalled = true;
         for (Song song : tree) {
             if (song.getGenres().contains(genre)) {
                 songs.add(song);
                 titles.add(song.getTitle());
             }
         }
-        current = songs;
+        filteredByGenre = songs;
         return titles;
     }
 
@@ -131,13 +129,24 @@ public class BackendPlaceholder implements BackendInterface {
         if (!getRangeCalled) {
             throw new IllegalStateException();
         }
-        this.getRange(range[0], range[1]);
-        for (Song song : current) {
-
+        List<Song> liveSongs = gotRange; //sort list from getRange()
+        List<String> fiveLive = new ArrayList<String>();
+        for (int i = 0; i < liveSongs.size(); i++) {
+            for (int j = 0; j < liveSongs.size() - 1 - i; j++) {
+                if (liveSongs.get(j).getLiveness() < liveSongs.get(j+1).getLiveness()) { 
+                    Song tmp = liveSongs.get(j+1);
+                    liveSongs.set(j+1, liveSongs.get(j));
+                    liveSongs.set(j,tmp);
+                }
+            }
         }
-	return java.util.Arrays.asList(new String[]{
-		"8: Hey, Soul Sister",
-		"52: Love The Way You Lie"
-	    });	
+        for (int i = 0; i < 5; i++) {
+            try {
+                fiveLive.add(liveSongs.get(i).getLiveness() + ": " + liveSongs.get(i).getTitle());
+            } catch(Exception e) {
+                break;
+            }
+        }
+	    return fiveLive;
     }    
 }
