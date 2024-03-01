@@ -39,15 +39,15 @@ public class Song extends Comparable<Song> implements SongInterface {
         //     throw new IOException();
         // }
 
-        title = words[0];
-        artist = words[1];
-        genres = words[2];
-        year = (int)words[3];
-        BPM = (int)words[4];
-        energy = (int)words[5];
-        danceability = (int)words[6];
-        loudness = (int)words[7];
-        liveness = (int)words[8];
+        title = words.get(0);
+        artist = words.get(1);
+        genres = words.get(2);
+        year = (int)words.get(3);
+        BPM = (int)words.get(4);
+        energy = (int)words.get(5);
+        danceability = (int)words.get(6);
+        loudness = (int)words.get(7);
+        liveness = (int)words.get(8);
     }
 
     private String title;
