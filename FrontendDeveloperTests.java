@@ -1,8 +1,217 @@
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class FrontendDeveloperTests {
+  /**
+   * Integration test that calls backend methods to check functionality of frontend methods with
+   * valid user input
+   */
+  @Test
+  void integrationTest1(){
+    TextUITester tester = new TextUITester("R\nsongs.csv\nG\n80 - 90\nF\npop\nD\nQ\n");
+
+    // new scanner
+    Scanner in = new Scanner(System.in);
+
+    // welcome message
+    System.out.println("Welcome to iSongify");
+    System.out.println("===================");
+
+    // creates a tree and backend placeholder to instantiate a frontend object
+    IterableSortedCollection<SongInterface> tree = new ISCPlaceholder<>();
+    BackendInterface back = new BackendInterface(tree);
+    Frontend front = new Frontend(in, back);
+
+    // called runCommandLoop method to check if the correct thing gets printed
+    front.runCommandLoop();
+
+    // goodbye message
+    System.out.println();
+    System.out.println("===================");
+    System.out.println("Thank you for using iSongify, Goodbye!");
+
+    String output = tester.checkOutput();
+
+    // checks the welcome message
+    assertTrue(output.startsWith("Welcome to iSongify\n"));
+
+    // check load file
+    assertTrue(output.contains("Enter path to csv file to load: "));
+    assertTrue(output.contains("Done reading file.\n"));
+
+    // check get range
+    List<String> result = back.getRange(80, 90);
+    assertTrue(output.contains("Enter range of values (MIN - MAX): "));
+    assertTrue(output.contains(result.size() + " songs found between 80 - 90:\n"));
+    for (String s : result) {
+      assertTrue(output.contains(s), "output did not contain " + s);
+    }
+
+    // check filter
+    result = back.filterByGenre("pop");
+    assertTrue(output.contains(result.size() + " songs found between 80 - 90 in genre pop:\n"));
+    for (String s : result) {
+      assertTrue(output.contains(s), "output did not contain " + s);
+    }
+
+    // check display
+    result = back.fiveMostLive();
+    assertTrue(output.contains("Top five songs found between 80 - 90 in genre pop:"));
+    for (String s : result) {
+      assertTrue(output.contains(s), "output did not contain " + s);
+    }
+
+    // check that the program ends correctly
+    assertTrue(output.endsWith("Thank you for using iSongify, Goodbye!\n"),
+        "Command Q did not work as expected");
+
+
+  }
+
+  /**
+   * Integration test that calls backend methods to check functionality of frontend methods with
+   * invalid user input that throws error
+   */
+  @Test
+  void integrationTest2() {
+    TextUITester tester = new TextUITester("R\nsomething.txt\nQ\n");
+
+    // new scanner
+    Scanner in = new Scanner(System.in);
+
+    // welcome message
+    System.out.println("Welcome to iSongify");
+    System.out.println("===================");
+
+    // creates a tree and backend placeholder to instantiate a frontend object
+    IterableSortedCollection<SongInterface> tree = new ISCPlaceholder<>();
+    BackendInterface back = new BackendInterface(tree);
+    Frontend front = new Frontend(in, back);
+
+    // called runCommandLoop method to check if the correct thing gets printed
+    front.runCommandLoop();
+
+    // goodbye message
+    System.out.println();
+    System.out.println("===================");
+    System.out.println("Thank you for using iSongify, Goodbye!");
+
+    // stores the output printed
+    String output = tester.checkOutput();
+
+    // checks the welcome message
+    assertTrue(output.startsWith("Welcome to iSongify\n"));
+
+    // checks the contents
+    assertTrue(output.contains("Enter path to csv file to load: "));
+    assertTrue(output.contains("Could not find file somefile.csv\n"));
+
+    // check that the program/method ends correctly
+    assertTrue(output.endsWith("Thank you for using iSongify, Goodbye!\n"),
+        "Command Q did not work as expected");
+
+    // ----------------------------------------------------------------------------------------
+    // Case 2: invalid ranges
+    // New TextUITester object for test
+    tester = new TextUITester("G\neight - 90\nQ\n");
+
+    // calls helper method
+    in = new Scanner(System.in);
+
+    // welcome message
+    System.out.println("Welcome to iSongify");
+    System.out.println("===================");
+
+    // creates a tree and backend placeholder to instantiate a frontend object
+    tree = new ISCPlaceholder<>();
+    back = new BackendInterface(tree);
+    front = new Frontend(in, back);
+
+    // called runCommandLoop method to check if the correct thing gets printed
+    front.runCommandLoop();
+
+    // goodbye message
+    System.out.println();
+    System.out.println("===================");
+    System.out.println("Thank you for using iSongify, Goodbye!");
+
+    // stores output printed
+    output = tester.checkOutput();
+
+    // check content
+    assertTrue(output.contains("Enter range of values (MIN - MAX): "));
+    assertTrue(output.contains("Min and Max are not in integer format." +
+        "Please enter you values in this format: 10 - 20"));
+
+    // -----------------------------------------------------------------------------------------
+    // Case 1: get range not called, empty list (0 songs found)
+    // New TextUITester object for test
+    tester = new TextUITester("F\npop\nQ\n");
+
+    // calls helper method
+    in = new Scanner(System.in);
+
+    // welcome message
+    System.out.println("Welcome to iSongify");
+    System.out.println("===================");
+
+    // creates a tree and backend placeholder to instantiate a frontend object
+    tree = new ISCPlaceholder<>();
+    back = new BackendInterface(tree);
+    front = new Frontend(in, back);
+
+    // called runCommandLoop method to check if the correct thing gets printed
+    front.runCommandLoop();
+
+    // goodbye message
+    System.out.println();
+    System.out.println("===================");
+    System.out.println("Thank you for using iSongify, Goodbye!");
+
+    // stores output printed
+    output = tester.checkOutput();
+
+    // check content
+    List<String> result = back.filterByGenre("pop");
+    assertTrue(output.contains("Enter genre: "));
+    assertTrue(output.contains(result.size() + " songs found between min - max in genre pop:\n"));
+
+    // -------------------------------------------------------------------------------------------
+    // Case 1: get range not called, give error message
+    // New TextUITester object for test
+    tester = new TextUITester("D\nQ\n");
+
+    // calls helper method
+    in = new Scanner(System.in);
+
+    // welcome message
+    System.out.println("Welcome to iSongify");
+    System.out.println("===================");
+
+    // creates a tree and backend placeholder to instantiate a frontend object
+    tree = new ISCPlaceholder<>();
+    back = new BackendInterface(tree);
+    front = new Frontend(in, back);
+
+    // called runCommandLoop method to check if the correct thing gets printed
+    front.runCommandLoop();
+
+    // goodbye message
+    System.out.println();
+    System.out.println("===================");
+    System.out.println("Thank you for using iSongify, Goodbye!");
+
+    // stores output printed
+    output = tester.checkOutput();
+
+    // check content
+    assertTrue(output.contains("[G]et Songs by Loudness command needs " +
+        "to be called before using this!"));
+  }
+
   /**
    * Tests that the main menu displays correctly and entering the command Q successfully closes
    * the app with the corresponding messages
@@ -123,8 +332,8 @@ public class FrontendDeveloperTests {
     // checks menus
     assertNotEquals(output.indexOf("[R]ead Data\n"), output.lastIndexOf("[R]ead Data\n"));
     assertTrue(output.contains("[G]et Songs by Loudness dB [80 - 90]\n"));
-    assertEquals(output.indexOf("G]et Songs by Loudness dB [80 - 90]\n"),
-        output.lastIndexOf("G]et Songs by Loudness dB [80 - 90]\n"));
+    assertEquals(output.indexOf("[G]et Songs by Loudness dB [80 - 90]\n"),
+        output.lastIndexOf("[G]et Songs by Loudness dB [80 - 90]\n"));
 
     // check that the program/method ends correctly
     assertTrue(output.endsWith("Thank you for using iSongify, Goodbye!\n"),
