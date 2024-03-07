@@ -9,7 +9,7 @@ import java.io.IOException;
  * of the Backend class that will be implemented in a later week.
  */
 public class BackendPlaceholder implements BackendInterface {
-	private boolean getRange = false;
+    private boolean getRange = false;
 
     public BackendPlaceholder(IterableSortedCollection<SongInterface> tree) {}
 
@@ -21,10 +21,10 @@ public class BackendPlaceholder implements BackendInterface {
     public void readData(String filename) throws IOException {
 	// Note: this placeholder doesn't need to output anything,
 	// it will be implemented by the backend developer in P105.
-		// added for testing purposes. Throws error when file name is somefile.csv
-		if (filename.equals("somefile.csv")){
-			throw new IOException("No file found");
-		}
+	// added for testing purposes. Throws error when file name is somefile.csv
+	if (filename.equals("somefile.csv")){
+		throw new IOException("No file found");
+	}
     }
 
     /**
@@ -69,15 +69,15 @@ public class BackendPlaceholder implements BackendInterface {
      * @return List of song titles, empty if getRange was not previously called
      */
     public List<String> filterByGenre(String genre) {
-		if (getRange == false){
-			return List.of();
-		}
-		else {
-			return java.util.Arrays.asList(new String[]{
-				"Hey, Soul Sister",
-				"Love The Way You Lie"
-			});
-		}
+	if (getRange == false){
+	    return List.of();
+	}
+	else {
+	    return java.util.Arrays.asList(new String[]{
+		"Hey, Soul Sister",
+		"Love The Way You Lie"
+	    });
+	}
     }
 
     /**
@@ -94,12 +94,12 @@ public class BackendPlaceholder implements BackendInterface {
      * @throws IllegalStateException when getRange() was not previously called.
      */
     public List<String> fiveMostLive() {
-		if (getRange == false) {
-			throw new IllegalStateException("getRange needs to be called first");
-		}
-		return java.util.Arrays.asList(new String[]{
-			"8: Hey, Soul Sister",
-			"52: Love The Way You Lie"
-		});
+	if (getRange == false) {
+	    throw new IllegalStateException("getRange needs to be called first");
+	}
+	return java.util.Arrays.asList(new String[]{
+	    "8: Hey, Soul Sister",
+	    "52: Love The Way You Lie"
+	});
     }    
 }
