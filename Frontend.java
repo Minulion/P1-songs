@@ -106,7 +106,7 @@ public class Frontend implements FrontendInterface{
 
     // store use input
     String input = scanner.nextLine();
-    String[] parts = input.split("-"); // split min and max at -
+    String[] parts = input.split(" - "); // split min and max at -
 
     // store the input in variables, throw exception if the user input is not in number format
     try{
@@ -130,7 +130,7 @@ public class Frontend implements FrontendInterface{
       // print the results for user
       System.out.println(size + " songs found between " + min + " - " + max + ":");
       System.out.println(message);
-      
+
     } catch(NumberFormatException e){
       System.out.println("Min and Max are not in integer format." +
           "Please enter you values in this format: 10 - 20");
