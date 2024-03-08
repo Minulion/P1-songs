@@ -112,28 +112,29 @@ public class Frontend implements FrontendInterface{
     try{
       min = Integer.parseInt(parts[0].strip());
       max = Integer.parseInt(parts[1].strip());
+
+      // store min and max into private variables to change the menu
+      this.min = parts[0].strip();
+      this.max = parts[1].strip();
+
+      // call backend method and store result
+      List<String> result = backend.getRange(min, max);
+      int size = result.size();
+
+      // order the list into a message to print out
+      String message = "";
+      for (String s : result) {
+        message += s + "\n";
+      }
+
+      // print the results for user
+      System.out.println(size + " songs found between " + min + " - " + max + ":");
+      System.out.println(message);
+      
     } catch(NumberFormatException e){
       System.out.println("Min and Max are not in integer format." +
           "Please enter you values in this format: 10 - 20");
     }
-
-    // store min and max into private variables to change the menu
-    this.min = parts[0].strip();
-    this.max = parts[1].strip();
-
-    // call backend method and store result
-    List<String> result = backend.getRange(min, max);
-    int size = result.size();
-
-    // order the list into a message to print out
-    String message = "";
-    for (String s : result) {
-      message += s + "\n";
-    }
-
-    // print the results for user
-    System.out.println(size + " songs found between " + min + " - " + max + ":");
-    System.out.println(message);
   }
 
   /**
@@ -175,19 +176,20 @@ public class Frontend implements FrontendInterface{
     // throw exception if user has not yet set the range for loudness
     try {
       result = backend.fiveMostLive();
+
+      // order results into a String message
+      String message = "";
+      for (String s : result) {
+        message += s + "\n";
+      }
+
+      // print out results for user to see
+      System.out.println("Top five songs found between " + min + " - " + max
+          + " in genre " + genre + ":");
+      System.out.println(message);
+
     } catch(IllegalStateException e){
       System.out.println("[G]et Songs by Loudness command needs to be called before using this!");
     }
-
-    // order results into a String message
-    String message = "";
-    for (String s : result) {
-      message += s + "\n";
-    }
-
-    // print out results for user to see
-    System.out.println("Top five songs found between " + min + " - " + max
-        + " in genre " + genre + ":");
-    System.out.println(message);
   }
 }
