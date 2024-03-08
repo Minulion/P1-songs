@@ -5,10 +5,10 @@ import java.util.Scanner;
  */
 public class App {
     public static void main(String[] args) {
-	IterableSortedCollection<SongInterface> tree = new ISCPlaceholder<>(); 
-	BackendInterface backend = new BackendPlaceholder(tree);
+	IterableSortedCollection<SongInterface> tree = new IterableRedBlackTree<>();
+	BackendInterface backend = new Backend(tree);
 	Scanner in = new Scanner(System.in);
-	FrontendInterface frontend = new FrontendPlaceholder(in,backend);
+	FrontendInterface frontend = new Frontend(in,backend);
 
 	System.out.println("Welcome to iSongify");
 	System.out.println("===================");
