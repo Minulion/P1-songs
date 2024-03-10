@@ -27,6 +27,7 @@ public class Song implements SongInterface {
             if (qCount%2 == 0) { // if even num of quotations
                 if (data.charAt(i) == ',') {
                     words.add(word);
+                    word = "";
                 } else {
                     word += (data.charAt(i));
                 }
@@ -97,7 +98,13 @@ public class Song implements SongInterface {
     } // returns this song's liveness rating
 
     public int compareTo(SongInterface song) {
-        return 0;
+        if (this.loudness > song.getLoudness()) {
+            return 1;
+        } else if (this.loudness < song.getLoudness()) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
     
 }
