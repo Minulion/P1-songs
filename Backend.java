@@ -37,7 +37,7 @@ public class Backend implements BackendInterface {
         }
     }
 
-    IterableSortedCollection<Song> tree;
+    IterableSortedCollection<SongInterface> tree;
     List<Song> gotRange; = new ArrayList<>(); //can be modified by either getRange or filterByGenre
     List<Song> filteredByGenre = new ArrayList<>();
     boolean getRangeCalled = false;
@@ -74,10 +74,10 @@ public class Backend implements BackendInterface {
             gotRange = songs;
             return titles;
         }
-        for (Song song : tree) {
+        for (SongInterface song : tree) {
             if (song.getLoudness() >= low && song.getLoudness() <= high) {
                 titles.add(song.getTitle());
-                songs.add(song);
+                songs.add((Song) song);
             }
         }
         gotRange = songs;
