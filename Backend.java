@@ -106,7 +106,7 @@ public class Backend implements BackendInterface {
         }
         filterByGenreCalled = true;
         for (Song song : gotRange) {
-            if (song.getGenres().contains(genre)) {
+            if (song.getGenres().equals(genre)) {
                 songs.add(song);
                 titles.add(song.getTitle());
             }
@@ -135,6 +135,9 @@ public class Backend implements BackendInterface {
             throw new IllegalStateException();
         }
         List<Song> liveSongs = gotRange; //sort list from getRange()
+	if (filterByGenreCalled) {
+	    liveSongs = filteredByGenre;
+	}
         List<String> fiveLive = new ArrayList<String>();
         for (int i = 0; i < liveSongs.size(); i++) {
             for (int j = 0; j < liveSongs.size() - 1 - i; j++) {
