@@ -38,7 +38,7 @@ public class Backend implements BackendInterface {
     }
 
     IterableSortedCollection<SongInterface> tree;
-    List<Song> gotRange; = new ArrayList<>(); //can be modified by either getRange or filterByGenre
+    List<Song> gotRange = new ArrayList<>(); //can be modified by either getRange or filterByGenre
     List<Song> filteredByGenre = new ArrayList<>();
     boolean getRangeCalled = false;
     boolean filterByGenreCalled = false;
