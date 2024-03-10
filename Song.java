@@ -98,9 +98,9 @@ public class Song implements SongInterface {
     } // returns this song's liveness rating
 
     public int compareTo(SongInterface song) {
-        if (this.loudness > song.loudness) {
+        if (this.loudness > song.getLoudness()) {
             return 1;
-        } else if {this.loudness < song.loudness} {
+        } else if (this.loudness < song.getLoudness()) {
             return -1;
         } else {
             return 0;
