@@ -13,7 +13,9 @@ import java.io.File;
  */
 public class Backend implements BackendInterface {
 
-    public Backend(IterableSortedCollection<SongInterface> tree) {}
+    public Backend(IterableSortedCollection<SongInterface> tree) {
+        this.tree = tree;
+    }
 
     /**
      * Loads data from the .csv file referenced by filename.
@@ -31,13 +33,13 @@ public class Backend implements BackendInterface {
         String line;
         while (sc.hasNextLine()) {
             line = sc.nextLine();
-            tree.add(new Song(line));
+            tree.insert(new Song(line));
         }
     }
 
-    List<Song> tree = new ArrayList<Song>();
-    List<Song> gotRange = new ArrayList<Song>(); //can be modified by either getRange or filterByGenre
-    List<Song> filteredByGenre = new ArrayList<Song>();
+    IterableSortedCollection<Song> tree;
+    List<Song> gotRange; = new ArrayList<>(); //can be modified by either getRange or filterByGenre
+    List<Song> filteredByGenre = new ArrayList<>();
     boolean getRangeCalled = false;
     boolean filterByGenreCalled = false;
 
@@ -103,7 +105,7 @@ public class Backend implements BackendInterface {
             return titles;
         }
         filterByGenreCalled = true;
-        for (Song song : tree) {
+        for (Song song : gotRange) {
             if (song.getGenres().contains(genre)) {
                 songs.add(song);
                 titles.add(song.getTitle());
