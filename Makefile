@@ -10,4 +10,5 @@ runBDTests:
 	java -jar ../junit5.jar -cp . -c BackendDeveloperTests
 
 runApp: App.java
+	javac -cp .:../junit5.jar App.java
 	java App.java
