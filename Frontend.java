@@ -106,7 +106,7 @@ public class Frontend implements FrontendInterface{
 
     // store use input
     String input = scanner.nextLine();
-    String[] parts = input.split("-"); // split min and max at -
+    String[] parts = input.split(" - "); // split min and max at -
 
     // store the input in variables, throw exception if the user input is not in number format
     try{

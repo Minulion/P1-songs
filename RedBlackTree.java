@@ -1,224 +1,148 @@
-// -== CS400 Spring 2024 File Header Information ==-
-// Name: Yanjun Yang
-// Email: yyang.748@wisc.edu
+// == CS400 Spring 2024 File Header Information ==
+// Name: Andrew Kim
+// Email: <akim227@wisc.edu>
 // Lecturer: Florian Heimerl
-// Notes to Grader: None
+// Notes to Grader:
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * Implementation of Red Black Tree using the Binary Search Tree class from week 1.
+ */
 public class RedBlackTree<T extends Comparable<T>> extends BinarySearchTree<T> {
+
   /**
-   * This class represents a node holding a single value within a Red Black tree.
+   * Class that represents a node in the RBT. Contains color data.
    */
   protected static class RBTNode<T> extends Node<T> {
     public boolean isBlack = false;
-
     public RBTNode(T data) { super(data); }
-
-    public RBTNode<T> getUp() { return (RBTNode<T>) this.up; }
-
-    public RBTNode<T> getDownLeft() { return (RBTNode<T>) this.down[0]; }
-
-    public RBTNode<T> getDownRight() { return (RBTNode<T>) this.down[1]; }
+    public RBTNode<T> getUp() { return (RBTNode<T>)this.up; }
+    public RBTNode<T> getDownLeft() { return (RBTNode<T>)this.down[0]; }
+    public RBTNode<T> getDownRight() { return (RBTNode<T>)this.down[1]; }
   }
-  
+
   /**
-   * Resolves any red property violations that are introduced by inserting 
-   * a new node into the Red-Black Tree
-   * @param added the node that might have a property violation
+   * Balances the RBT when given a new red node to be added.
+   * @param redNode the node to be inserted
    */
-  protected void enforceRBTreePropertiesAfterInsert(RBTNode<T> added) {
-    // root node
-    if (added.getUp() == null || added.getUp().getUp() == null) {
-      return;
-    }
+  protected void enforceRBTreePropertiesAfterInsert(RBTNode<T> redNode) {
+    if (redNode.getUp() == null) { //if root, make black and resolve
+      redNode.isBlack = true;
+    } else if (!(redNode.getUp().isBlack)) { //check if two reds in a row
+      if (redNode.getUp().getUp() != null &&  redNode.getUp().getUp().getDownLeft() == redNode.getUp()) { //if parent is left, check right for aunt
+        if (redNode.getUp().getUp().getDownRight() != null && !(redNode.getUp().getUp().getDownRight().isBlack)) { //if aunt exists and red
+          //color swap
+          redNode.getUp().isBlack = true;
+          redNode.getUp().getUp().getDownRight().isBlack = true;
+          redNode.getUp().getUp().isBlack = false;
+          this.enforceRBTreePropertiesAfterInsert(redNode.getUp().getUp());
+        } else { //aunt is black or doesnt exist
+          if (redNode.getUp().getDownRight() == redNode) { //if child is right, rotate
+            super.rotate(redNode, redNode.getUp());
+            this.enforceRBTreePropertiesAfterInsert(redNode.getDownLeft());
+          } else { //child is left, left left case
+            //color swap and rotate
+            redNode.getUp().isBlack = true;
+            redNode.getUp().getUp().isBlack = false;
+            super.rotate(redNode.getUp(), redNode.getUp().getUp());
+          }
+        }
+      } else { //parent is right, check left for aunt
+        if (redNode.getUp().getUp().getDownLeft() != null && !(redNode.getUp().getUp().getDownLeft().isBlack)) { //if aunt exists and red
+          //color swap
+          redNode.getUp().isBlack = true;
+          redNode.getUp().getUp().getDownLeft().isBlack = true;
+          redNode.getUp().getUp().isBlack = false;
+          this.enforceRBTreePropertiesAfterInsert(redNode.getUp().getUp());
+        } else { //aunt is black or doesnt exist
+          if (redNode.getUp().getDownLeft() == redNode) { //if child is left, rotate
+            super.rotate(redNode, redNode.getUp());
+            this.enforceRBTreePropertiesAfterInsert(redNode.getDownRight());
+          } else { //child is right, right right case
+            //color swap and rotate
+            redNode.getUp().isBlack = true;
+            redNode.getUp().getUp().isBlack = false;
+            super.rotate(redNode.getUp(), redNode.getUp().getUp());
+          }
+        }
+      }
 
-    // store parent, aunt, and grandparent
-    RBTNode<T> parent = added.getUp();
-    RBTNode<T> gParent = parent.getUp();
-    RBTNode<T> aunt;
-    if (parent.isRightChild()){
-      aunt = gParent.getDownLeft();
-    } else {
-      aunt = gParent.getDownRight();
-    }
-    // reordering required with double red node
-    if (!parent.isBlack){
-      // red aunt
-      if (aunt != null && !aunt.isBlack) {
-        // recolor parent, aunt, and grandparent
-        parent.isBlack = true;
-        aunt.isBlack = true;
-        gParent.isBlack = false;
-        // check if the recolored grandparent causes RBT rule violation
-        enforceRBTreePropertiesAfterInsert(gParent);
-      }
-      // black aunt
-      else {
-        // check if rotation is needed beforehand
-        if (added.isRightChild() != parent.isRightChild()){
-          rotate(added, parent); // rotate first
-          // rotate and color swap
-          rotate(added, gParent);
-          added.isBlack = true;
-          gParent.isBlack = false;
-        }
-        else {
-          // rotate & color swap
-          rotate(parent, gParent);
-          parent.isBlack = true;
-          gParent.isBlack = false;
-        }
-      }
     }
   }
 
   /**
-   * Inserts a new data value into the tree.
-   * This tree will not hold null references, nor duplicate data values.
-   * @param data to be added into this red black tree
-   * @return true if the value was inserted, false if is was in the tree already
+   * Inserts a new RBTNode into the RBT. Calls method to uphold properties.
+   * @param data value of RBT node
+   * @return true if value successfully inserted, false otherwise
    * @throws NullPointerException when the provided data argument is null
    */
+  @Override
   public boolean insert(T data) throws NullPointerException {
-    // check for null values
     if (data == null)
       throw new NullPointerException("Cannot insert data value null into the tree.");
-
-    // node to be added
-    RBTNode<T> toAdd = new RBTNode<T>(data);
-    boolean success = this.insertHelper(toAdd);
-
-    // check for property violations
-    enforceRBTreePropertiesAfterInsert(toAdd);
-
-    // set root to black
-    ((RBTNode<T>) this.root).isBlack = true;
-
-    // return true if succesfully added
+    RBTNode insert = new RBTNode<T>(data);
+    boolean success = super.insertHelper(insert);
+    this.enforceRBTreePropertiesAfterInsert(insert);
+    ((RBTNode<T>)this.root).isBlack = true;
     return success;
   }
 
   /**
-   * Tests the insertion into a RBT where after inserting reordering is needed and the aunt is a red
-   * node. (Case without recursive call)
+   * Tests insertion at the root
    */
   @Test
-  void case1() {
-    RedBlackTree<Integer> test = new RedBlackTree<Integer>();
-
-    // Test 1: check root gets recolored
-    test.insert(15);
-    assertTrue(((RBTNode<Integer>) test.root).isBlack, "Root was not changed to black");
-
-    // Test 2: Aunt is red (simple recolor)
-    test.insert(7);
-    test.insert(18);
-    test.insert(23);
-
-    // check is valid tree
-    String expected = "[ 7, 15, 18, 23 ]";
-    assertEquals(expected, test.toInOrderString());
-
-    // check order
-    expected = "[ 15, 7, 18, 23 ]";
-    assertEquals(expected, test.toLevelOrderString());
-
-    // check color of nodes (23 should be the only red)
-    RBTNode<Integer> root = ((RBTNode<Integer>) test.root);
-    assertFalse(root.getDownRight().getDownRight().isBlack, "Node 23 was not added as red");
-    assertTrue(root.isBlack, "Root was not changed to black"); // check root
-    assertTrue(root.getDownLeft().isBlack, "Node 7 was not changed to black"); // check 7
-    assertTrue(root.getDownRight().isBlack, "Node 18 was not changed to black"); // check 18
+  public void testInsertRoot() {
+    RedBlackTree tree = new RedBlackTree();
+    tree.insert(5);
+    Assertions.assertTrue(((RBTNode<T>)tree.root).data.equals(5));
+    Assertions.assertTrue(((RBTNode<T>)tree.root).isBlack);
   }
 
   /**
-   * Tests the insertion into a RBT where after inserting reordering is needed and the aunt is a
-   * black or a null node
+   * Tests recoloring operation
    */
   @Test
-  void case2() {
-    RedBlackTree<Integer> test = new RedBlackTree<Integer>();
-    test.insert(7);
-
-    // Test 1: Aunt is null (rotate & color swap)
-    test.insert(15);
-    test.insert(18);
-
-    // check order
-    String expected = "[ 15, 7, 18 ]";
-    assertEquals(expected, test.toLevelOrderString());
-
-    // check color of nodes
-    RBTNode<Integer> root = ((RBTNode<Integer>) test.root);
-    assertTrue(root.isBlack, "Root was not changed to black"); // check root
-    assertFalse(root.getDownLeft().isBlack, "Node 7 was not changed to red"); // check 7
-    assertFalse(root.getDownRight().isBlack, "Node 18 was not added as red"); // check 18
-
-    // Test 2: Not all on the same side (2 rotate & color swap)
-    test.insert(25);
-    test.insert(1);
-    test.insert(10);
-    test.insert(20);
-
-    // check is valid tree
-    expected = "[ 1, 7, 10, 15, 18, 20, 25 ]";
-    assertEquals(expected, test.toInOrderString());
-
-    // check order
-    expected = "[ 15, 7, 20, 1, 10, 18, 25 ]";
-    assertEquals(expected, test.toLevelOrderString());
-
-    // check color of nodes
-    root = ((RBTNode<Integer>) test.root);
-    assertTrue(root.isBlack, "Root was not changed to black"); // check root
-    assertTrue(root.getDownRight().isBlack, "Node 20 was not changed to black"); // check 20
-    assertFalse(root.getDownRight().getDownRight().isBlack,
-        "Node 18 was not changed to red"); // check 18
-    assertFalse(root.getDownRight().getDownLeft().isBlack,
-        "Node 25 was not changed to red"); // check 25
+  public void testRecolor() {
+    RedBlackTree tree = new RedBlackTree();
+    tree.insert(5);
+    tree.insert(4);
+    tree.insert(6);
+    tree.insert(3);
+    Assertions.assertTrue(((RBTNode<T>)tree.root).data.equals(5));
+    Assertions.assertTrue(((RBTNode<T>)tree.root).isBlack);
+    Assertions.assertTrue(((RBTNode<T>)tree.root).getDownLeft().isBlack);
+    Assertions.assertTrue(((RBTNode<T>)tree.root).getDownRight().isBlack);
+    Assertions.assertFalse(((RBTNode<T>)tree.root).getDownLeft().getDownLeft().isBlack);
   }
 
   /**
-   * Tests the insertion into a RBT where after inserting multiple times of reordering and rotation
-   * is needed
+   * Tests rotation operation
    */
   @Test
-  void case3() {
-    // set up initial tree
-    RedBlackTree<Integer> test = new RedBlackTree<Integer>();
-    test.insert(7);
-    test.insert(15);
-    test.insert(18);
-    test.insert(25);
-    test.insert(5);
-    test.insert(10);
-    test.insert(20);
-    test.insert(1);
-    test.insert(4);
+  public void testRotate() {
+    RedBlackTree tree = new RedBlackTree();
+    tree.insert(5);
+    tree.insert(4);
+    tree.insert(6);
+    tree.insert(3);
+    tree.insert(2);
+    tree.insert(1);
+    System.out.println(tree.toString());
+    Assertions.assertTrue(((RBTNode<T>)tree.root).getDownLeft().data.equals(3));
+    Assertions.assertTrue(((RBTNode<T>)tree.root).getDownRight().data.equals(6));
+    Assertions.assertFalse(((RBTNode<T>)tree.root).getDownLeft().isBlack);
+    Assertions.assertTrue(((RBTNode<T>)tree.root).getDownRight().isBlack);
+    Assertions.assertTrue(((RBTNode<T>)tree.root).getDownLeft().getDownLeft().isBlack);
+    Assertions.assertTrue(((RBTNode<T>)tree.root).getDownLeft().getDownRight().isBlack);
+    tree.insert(8);
+    tree.insert(7);
+    System.out.println(tree.toString());
+    Assertions.assertTrue(((RBTNode<T>)tree.root).getDownRight().data.equals(7));
+    Assertions.assertTrue(((RBTNode<T>)tree.root).getDownRight().isBlack);
+    Assertions.assertFalse(((RBTNode<T>)tree.root).getDownRight().getDownRight().isBlack);
+    Assertions.assertFalse(((RBTNode<T>)tree.root).getDownRight().getDownLeft().isBlack);
 
-    // Test: recolor first, then rotate & swap
-    test.insert(6);
-
-    // check is valid tree
-    String expected = "[ 1, 4, 5, 6, 7, 10, 15, 18, 20, 25 ]";
-    assertEquals(expected, test.toInOrderString());
-
-    // check order
-    expected = "[ 7, 4, 15, 1, 5, 10, 20, 6, 18, 25 ]";
-    assertEquals(expected, test.toLevelOrderString());
-
-    // check colors
-    RBTNode<Integer> root = ((RBTNode<Integer>) test.root);
-    assertTrue(root.isBlack, "Root was not changed to black");
-    assertFalse(root.getDownRight().isBlack, "Node 4 was not changed to black"); // check 20
-    assertFalse(root.getDownLeft().isBlack, "Node 15 was not changed to red"); // check 18
-    assertTrue(root.getDownLeft().getDownLeft().isBlack, "Node 1 was not changed to black"); // check 1
-    assertTrue(root.getDownLeft().getDownRight().isBlack, "Node 5 was not changed to black"); // check 5
-    assertFalse(root.getDownLeft().getDownRight().getDownRight().isBlack, "Node 6 not red black"); // check 6
   }
-
 }
-

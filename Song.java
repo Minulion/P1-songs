@@ -27,6 +27,7 @@ public class Song implements SongInterface {
             if (qCount%2 == 0) { // if even num of quotations
                 if (data.charAt(i) == ',') {
                     words.add(word);
+                    word = "";
                 } else {
                     word += (data.charAt(i));
                 }
@@ -75,29 +76,35 @@ public class Song implements SongInterface {
     public int getYear() {
         return year;
     } // returns this song's year in the Billboard
-    
+
     public int getBPM() {
         return BPM;
     } // returns this song's speed/tempo in beats per minute
-    
+
     public int getEnergy() {
         return energy;
-    } // returns this song's energy rating 
-    
+    } // returns this song's energy rating
+
     public int getDanceability() {
         return danceability;
     } // returns this song's danceability rating
-    
+
     public int getLoudness() {
         return loudness;
     } // returns this song's loudness in dB
-    
+
     public int getLiveness() {
         return liveness;
     } // returns this song's liveness rating
 
     public int compareTo(SongInterface song) {
-        return 0;
+        if (this.loudness > song.getLoudness()) {
+            return 1;
+        } else if (this.loudness < song.getLoudness()) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
-    
+
 }

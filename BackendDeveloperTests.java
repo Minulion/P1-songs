@@ -9,7 +9,7 @@ public class BackendDeveloperTests {
      */
     @Test
     public void testReadDataException() {
-        IterableSortedCollection<SongInterface> tree = new ISCPlaceholder<>(); 
+        IterableSortedCollection<SongInterface> tree = new IterableRedBlackTree<>();
 	    BackendInterface backend = new Backend(tree);
         try {
             backend.readData("fakeName.file");
@@ -23,7 +23,7 @@ public class BackendDeveloperTests {
      */
     @Test
     public void testGetRangeBadInput() {
-        IterableSortedCollection<SongInterface> tree = new ISCPlaceholder<>(); 
+        IterableSortedCollection<SongInterface> tree = new IterableRedBlackTree<>();
 	    BackendInterface backend = new Backend(tree);
         Assertions.assertTrue(backend.getRange(2,1).size() == 0);
     }
@@ -33,7 +33,7 @@ public class BackendDeveloperTests {
      */
     @Test
     public void testFakeGenre() {
-        IterableSortedCollection<SongInterface> tree = new ISCPlaceholder<>(); 
+        IterableSortedCollection<SongInterface> tree = new IterableRedBlackTree<>();
 	    BackendInterface backend = new Backend(tree);
         Assertions.assertTrue(backend.filterByGenre("fakepoop").size() == 0);
     }
@@ -43,7 +43,7 @@ public class BackendDeveloperTests {
      */
     @Test
     public void testGetRangeNotCalled() {
-        IterableSortedCollection<SongInterface> tree = new ISCPlaceholder<>(); 
+        IterableSortedCollection<SongInterface> tree = new IterableRedBlackTree<>();
 	    BackendInterface backend = new Backend(tree);
         try {
             backend.fiveMostLive();
@@ -58,7 +58,7 @@ public class BackendDeveloperTests {
      */
     @Test
     public void testNoMoreThanFive() {
-        IterableSortedCollection<SongInterface> tree = new ISCPlaceholder<>(); 
+        IterableSortedCollection<SongInterface> tree = new IterableRedBlackTree<>();
 	    BackendInterface backend = new Backend(tree);
         backend.getRange(-999,999);
         Assertions.assertTrue(backend.fiveMostLive().size() < 6);

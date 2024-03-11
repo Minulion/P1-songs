@@ -6,11 +6,50 @@ import java.util.Scanner;
 
 public class FrontendDeveloperTests {
   /**
+   * Tests that the backend filterByGenre method returns an empty list when getRange has not been
+   * called before it
+   */
+  @Test
+  void testPartner1(){
+    IterableSortedCollection<SongInterface> tree = new IterableRedBlackTree<>();
+    BackendInterface back = new Backend(tree);
+
+    try {
+      back.readData("songs.csv");
+    } catch (Exception e){
+      System.out.println(e.getMessage());
+    }
+
+    List<String> result = back.filterByGenre("pop");
+    assertEquals(result.size(), 0, "Did not return an empty list");
+  }
+
+  /**
+   * A test case that tests the backend for valid user inputs
+   */
+  @Test
+  void testPartner2(){
+    IterableSortedCollection<SongInterface> tree = new IterableRedBlackTree<>();
+    BackendInterface back = new Backend(tree);
+
+    try {
+      back.readData("songs.csv");
+    } catch (Exception e){
+      System.out.println(e.getMessage());
+    }
+
+    List<String> result = back.getRange(-5, -5);
+    assertEquals(149, result.size(), "Did not return all songs");
+    result = back.filterByGenre("pop");
+    assertEquals(21, result.size(), "Did not return all songs");
+  }
+
+  /**
    * Integration test that calls backend methods to check functionality of frontend methods with
    * valid user input
    */
   @Test
-  void integrationTest1(){
+  void testIntegration1(){
     TextUITester tester = new TextUITester("R\nsongs.csv\nG\n80 - 90\nF\npop\nD\nQ\n");
 
     // new scanner
@@ -22,7 +61,7 @@ public class FrontendDeveloperTests {
 
     // creates a tree and backend placeholder to instantiate a frontend object
     IterableSortedCollection<SongInterface> tree = new ISCPlaceholder<>();
-    BackendInterface back = new BackendInterface(tree);
+    BackendInterface back = new Backend(tree);
     Frontend front = new Frontend(in, back);
 
     // called runCommandLoop method to check if the correct thing gets printed
@@ -76,7 +115,7 @@ public class FrontendDeveloperTests {
    * invalid user input that throws error
    */
   @Test
-  void integrationTest2() {
+  void testIntegration2() {
     TextUITester tester = new TextUITester("R\nsomething.txt\nQ\n");
 
     // new scanner
@@ -88,7 +127,7 @@ public class FrontendDeveloperTests {
 
     // creates a tree and backend placeholder to instantiate a frontend object
     IterableSortedCollection<SongInterface> tree = new ISCPlaceholder<>();
-    BackendInterface back = new BackendInterface(tree);
+    BackendInterface back = new Backend(tree);
     Frontend front = new Frontend(in, back);
 
     // called runCommandLoop method to check if the correct thing gets printed
@@ -107,7 +146,7 @@ public class FrontendDeveloperTests {
 
     // checks the contents
     assertTrue(output.contains("Enter path to csv file to load: "));
-    assertTrue(output.contains("Could not find file somefile.csv\n"));
+    assertTrue(output.contains("Could not find file something.txt\n"));
 
     // check that the program/method ends correctly
     assertTrue(output.endsWith("Thank you for using iSongify, Goodbye!\n"),
@@ -127,7 +166,7 @@ public class FrontendDeveloperTests {
 
     // creates a tree and backend placeholder to instantiate a frontend object
     tree = new ISCPlaceholder<>();
-    back = new BackendInterface(tree);
+    back = new Backend(tree);
     front = new Frontend(in, back);
 
     // called runCommandLoop method to check if the correct thing gets printed
@@ -147,7 +186,7 @@ public class FrontendDeveloperTests {
         "Please enter you values in this format: 10 - 20"));
 
     // -----------------------------------------------------------------------------------------
-    // Case 1: get range not called, empty list (0 songs found)
+    // Case 3: get range not called, empty list (0 songs found)
     // New TextUITester object for test
     tester = new TextUITester("F\npop\nQ\n");
 
@@ -160,7 +199,7 @@ public class FrontendDeveloperTests {
 
     // creates a tree and backend placeholder to instantiate a frontend object
     tree = new ISCPlaceholder<>();
-    back = new BackendInterface(tree);
+    back = new Backend(tree);
     front = new Frontend(in, back);
 
     // called runCommandLoop method to check if the correct thing gets printed
@@ -180,7 +219,7 @@ public class FrontendDeveloperTests {
     assertTrue(output.contains(result.size() + " songs found between min - max in genre pop:\n"));
 
     // -------------------------------------------------------------------------------------------
-    // Case 1: get range not called, give error message
+    // Case 4: get range not called, give error message
     // New TextUITester object for test
     tester = new TextUITester("D\nQ\n");
 
@@ -193,7 +232,7 @@ public class FrontendDeveloperTests {
 
     // creates a tree and backend placeholder to instantiate a frontend object
     tree = new ISCPlaceholder<>();
-    back = new BackendInterface(tree);
+    back = new Backend(tree);
     front = new Frontend(in, back);
 
     // called runCommandLoop method to check if the correct thing gets printed
