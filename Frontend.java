@@ -21,33 +21,39 @@ public class Frontend implements FrontendInterface{
    */
   public void runCommandLoop() {
     // string to store user input
-    String command = null;
+    String command;
 
     // keep printing the menu until user enters Q
     do {
       displayMainMenu();
       // update user command
       command = scanner.nextLine();
-      switch(command){
-        // command is R, call readFile
-        case "R":
-          readFile();
-          break;
 
-        // command is D call topFive
-        case "D":
-          topFive();
-          break;
+      if (command == null || command.isEmpty()){
+        System.out.println("Command cannot be blank");
+      }
+      else {
+        switch (command) {
+          // command is R, call readFile
+          case "R":
+            readFile();
+            break;
 
-        // F, set the filter
-        case "F":
-          setFilter();
-          break;
+          // command is D call topFive
+          case "D":
+            topFive();
+            break;
 
-        // G, get songs by loudness
-        case "G":
-          getValues();
-          break;
+          // F, set the filter
+          case "F":
+            setFilter();
+            break;
+
+          // G, get songs by loudness
+          case "G":
+            getValues();
+            break;
+        }
       }
     }
     while (!command.equals("Q"));
@@ -130,7 +136,7 @@ public class Frontend implements FrontendInterface{
       // print the results for user
       System.out.println(size + " songs found between " + min + " - " + max + ":");
       System.out.println(message);
-      
+
     } catch(NumberFormatException e){
       System.out.println("Min and Max are not in integer format." +
           "Please enter you values in this format: 10 - 20");
