@@ -30,8 +30,9 @@ public class Frontend implements FrontendInterface{
       if (scanner.hasNext()) {
         command = scanner.nextLine();
 
-        if (command.isEmpty()){
+        if (command == null || command.isEmpty()){
           System.out.println("Command cannot be blank");
+          continue;
         }
 
         switch (command) {
