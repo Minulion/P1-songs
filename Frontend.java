@@ -21,13 +21,15 @@ public class Frontend implements FrontendInterface{
    */
   public void runCommandLoop() {
     // string to store user input
-    String command;
+    String command = null;
 
     // keep printing the menu until user enters Q
     do {
       displayMainMenu();
       // update user command
-      command = scanner.nextLine();
+      if (scanner.hasNext()) {
+        command = scanner.nextLine().trim().toUpperCase();
+      }
 
       if (command == null || command.isEmpty()){
         System.out.println("Command cannot be blank");
