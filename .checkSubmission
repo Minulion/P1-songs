@@ -18,7 +18,7 @@ if ! make runBDTests && ! make runFDTests ; then
 	exit 1
 fi
 
-if ! echo "" | make runApp ; then
+if ! echo "Q" | make runApp ; then
     echo
     echo "Submission Failed Check: \"make runApp\" does not succeed"
     exit 1
