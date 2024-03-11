@@ -20,21 +20,20 @@ public class Frontend implements FrontendInterface{
    * they select Q to quit.
    */
   public void runCommandLoop() {
-    // string to store user input
-    String command = null;
-
+    boolean exit = false;
     // keep printing the menu until user enters Q
-    do {
+    while (!exit) {
       displayMainMenu();
+      // string to store user input
+      String command = null;
       // update user command
       if (scanner.hasNext()) {
-        command = scanner.nextLine().trim().toUpperCase();
-      }
+        command = scanner.nextLine();
 
-      if (command == null || command.isEmpty()){
-        System.out.println("Command cannot be blank");
-      }
-      else {
+        if (command.isEmpty()){
+          System.out.println("Command cannot be blank");
+        }
+
         switch (command) {
           // command is R, call readFile
           case "R":
@@ -56,9 +55,10 @@ public class Frontend implements FrontendInterface{
             getValues();
             break;
         }
+      } else {
+        exit = true;
       }
     }
-    while (!command.equals("Q"));
   }
 
   /**
