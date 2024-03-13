@@ -21,7 +21,7 @@ public class Frontend implements FrontendInterface{
    */
   public void runCommandLoop() {
     // string to store user input
-    String command = null;
+    String command = "";
 
     // keep printing the menu until user enters Q
     do {
