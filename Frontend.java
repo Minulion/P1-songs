@@ -27,7 +27,9 @@ public class Frontend implements FrontendInterface{
     do {
       displayMainMenu();
       // update user command
-      command = scanner.nextLine();
+      if (scanner.hasNext()) {
+        command = scanner.nextLine();
+      }
       switch(command){
         // command is R, call readFile
         case "R":
