@@ -20,46 +20,46 @@ public class Frontend implements FrontendInterface{
    * they select Q to quit.
    */
   public void runCommandLoop() {
-    boolean exit = false;
+    // string to store user input
+    String command = "";
+
     // keep printing the menu until user enters Q
-    while (!exit) {
+    do {
       displayMainMenu();
-      // string to store user input
-      String command = null;
+
       // update user command
       if (scanner.hasNext()) {
-        command = scanner.nextLine();
+        command = scanner.next();
+      }
 
-        if (command == null || command.isEmpty()){
-          System.out.println("Command cannot be blank");
-          continue;
-        }
+      if (command == null || command.isEmpty()){
+        System.out.println("Command cannot be blank");
+        continue;
+      }
 
-        switch (command) {
-          // command is R, call readFile
-          case "R":
-            readFile();
-            break;
+      switch (command) {
+        // command is R, call readFile
+        case "R":
+          readFile();
+          break;
 
-          // command is D call topFive
-          case "D":
-            topFive();
-            break;
+        // command is D call topFive
+        case "D":
+          topFive();
+          break;
 
-          // F, set the filter
-          case "F":
-            setFilter();
-            break;
+        // F, set the filter
+        case "F":
+          setFilter();
+          break;
 
-          // G, get songs by loudness
-          case "G":
-            getValues();
-            break;
-        }
-      } else {
-        exit = true;
+        // G, get songs by loudness
+        case "G":
+          getValues();
+          break;
       }
     }
+    while (!command.equals("Q"));
   }
 
   /**
