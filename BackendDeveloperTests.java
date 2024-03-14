@@ -114,7 +114,8 @@ public class BackendDeveloperTests {
     }
 
     /**
-     * 
+     * Tests whether frontend throws the correct message when fiveMostLive() is called
+     * before getRange().
      */
     @Test 
     public void testPartnerTopFive() {
@@ -132,7 +133,7 @@ public class BackendDeveloperTests {
     }
 
     /**
-     * 
+     * Tests whether frontend throws the correct message when file name is invalid.
      */
     @Test 
     public void testPartnerReadFile() {
