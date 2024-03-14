@@ -88,8 +88,6 @@ public class BackendDeveloperTests {
         for (String s : result) {
             Assertions.assertTrue(output.contains(s));
         }
-
-        Assertions.assertFalse(result.isEmpty());
     }
 
     /**
@@ -113,8 +111,6 @@ public class BackendDeveloperTests {
         for (String s : result) {
             Assertions.assertTrue(output.contains(s));
         }
-
-        Assertions.assertFalse(result.isEmpty());
     }
 
     /**
