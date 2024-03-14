@@ -129,7 +129,7 @@ public class BackendDeveloperTests {
         BackendInterface back = new Backend(tree);
         Frontend front = new Frontend(in, back);
 
-        frontend.topFive();
+        front.topFive();
         String output = tester.checkOutput();
 
         Assertions.assertTrue(output.contains("[G]et Songs by Loudness command needs to be called before using this!"));
@@ -147,7 +147,7 @@ public class BackendDeveloperTests {
         BackendInterface back = new Backend(tree);
         Frontend front = new Frontend(in, back);
 
-        frontend.readFile("fake.file");
+        front.readFile("fake.file");
         String output = tester.checkOutput();
 
         Assertions.assertTrue(output.contains("Could not find file "));
