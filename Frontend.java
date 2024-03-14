@@ -154,6 +154,10 @@ public class Frontend implements FrontendInterface{
     List<String> result = backend.filterByGenre(genre);
     int size = result.size();
 
+    if (size == 0) {
+      genre = "none";
+    }
+
     // order results into a String message
     String message = "";
     for (String s : result) {
