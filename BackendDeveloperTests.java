@@ -136,7 +136,7 @@ public class BackendDeveloperTests {
      */
     @Test 
     public void testPartnerReadFile() {
-        TextUITester tester = new TextUITester("");
+        TextUITester tester = new TextUITester("R\nfake.csv\nG\n80 - 90\nF\npop\nD\nQ\n");
         Scanner in = new Scanner(System.in);
 
         IterableSortedCollection<SongInterface> tree = new IterableRedBlackTree<>();
