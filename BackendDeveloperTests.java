@@ -147,7 +147,7 @@ public class BackendDeveloperTests {
         BackendInterface back = new Backend(tree);
         Frontend front = new Frontend(in, back);
 
-        front.readFile("fake.file");
+        front.readFile();
         String output = tester.checkOutput();
 
         Assertions.assertTrue(output.contains("Could not find file "));
