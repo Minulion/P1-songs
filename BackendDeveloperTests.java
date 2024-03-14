@@ -64,9 +64,91 @@ public class BackendDeveloperTests {
         Assertions.assertTrue(backend.fiveMostLive().size() < 6);
     }
 
+    /**
+     * Tests to see if output of frontend matches backend when getRange() is called.
+     * Also checks if method returns list of values (non-empty).
+     */
     @Test 
-    public void test1() {}
+    public void testIntegrationRange() {
+        TextUITester tester = new TextUITester("R\nsongs.csv\nG\n80 - 90\nF\npop\nD\nQ\n");
+        Scanner in = new Scanner(System.in);
 
+        IterableSortedCollection<SongInterface> tree = new IterableRedBlackTree<>();
+        BackendInterface back = new Backend(tree);
+        Frontend front = new Frontend(in, back);
+
+        front.runCommandLoop();
+        String output = tester.checkOutput();
+
+        List<String> result = back.getRange(50, 100);
+
+        for (String s : result) {
+            Assertions.assertTrue(output.contains(s));
+        }
+
+        Assertions.assertFalse(result.isEmpty());
+    }
+
+    /**
+     * Tests to see if output of frontend matches backend when filterByGenre() is called.
+     * Also checks if method returns list of values (non-empty).
+     */
     @Test 
-    public void test2() {}
+    public void testIntegrationFilter() {
+        TextUITester tester = new TextUITester("R\nsongs.csv\nG\n80 - 90\nF\npop\nD\nQ\n");
+        Scanner in = new Scanner(System.in);
+
+        IterableSortedCollection<SongInterface> tree = new IterableRedBlackTree<>();
+        BackendInterface back = new Backend(tree);
+        Frontend front = new Frontend(in, back);
+
+        front.runCommandLoop();
+        String output = tester.checkOutput();
+
+        List<String> result = back.filterByGenre("pop");
+
+        for (String s : result) {
+            Assertions.assertTrue(output.contains(s));
+        }
+
+        Assertions.assertFalse(result.isEmpty());
+    }
+
+    /**
+     * 
+     */
+    @Test 
+    public void testPartnerTopFive() {
+        TextUITester tester = new TextUITester("");
+        Scanner in = new Scanner(System.in);
+
+        IterableSortedCollection<SongInterface> tree = new IterableRedBlackTree<>();
+        BackendInterface back = new Backend(tree);
+        Frontend front = new Frontend(in, back);
+
+        frontend.topFive();
+        String output = tester.checkOutput();
+
+        Assertions.assertTrue(output.contains("[G]et Songs by Loudness command needs to be called before using this!"));
+    }
+
+    /**
+     * 
+     */
+    @Test 
+    public void testPartnerReadFile() {
+        TextUITester tester = new TextUITester("");
+        Scanner in = new Scanner(System.in);
+
+        IterableSortedCollection<SongInterface> tree = new IterableRedBlackTree<>();
+        BackendInterface back = new Backend(tree);
+        Frontend front = new Frontend(in, back);
+
+        frontend.readFile("fake.file");
+        String output = tester.checkOutput();
+
+        Assertions.assertTrue(output.contains("Could not find file "));
+    }
+
+
 }
