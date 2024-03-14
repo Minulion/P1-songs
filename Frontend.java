@@ -29,7 +29,7 @@ public class Frontend implements FrontendInterface{
 
       // update user command
       if (scanner.hasNext()) {
-        command = scanner.next();
+        command = scanner.nextLine();
       }
 
       if (command == null || command.isEmpty()){
@@ -160,6 +160,10 @@ public class Frontend implements FrontendInterface{
     // use backend method to search for results
     List<String> result = backend.filterByGenre(genre);
     int size = result.size();
+
+    if (size == 0) {
+      genre = "none";
+    }
 
     // order results into a String message
     String message = "";
